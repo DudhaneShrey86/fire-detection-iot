@@ -277,3 +277,30 @@ option{
   50%{top: 0px;}
   100%{top: 0px;}
 }
+#fwi .cardcontent div{
+  border: 1px solid var(--border-color1);
+  padding: 5px;
+  text-align: center;
+}
+#fwi .cardcontent div img{
+  width: 80%;
+}
+#fwireport{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+#fwireport .full{
+  grid-column: 1/3;
+  border-bottom: 1px solid var(--border-color1);
+}
+#fwireport #msg{
+  grid-column: 1/3;
+  color: red;
+}
+#fwireport>*{
+  margin: 5px;
+  font-size: 1.1em;
+}
+#fwireport span{
+  font-weight: bold;
+}

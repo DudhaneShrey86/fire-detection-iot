@@ -9,6 +9,21 @@ var todaysdate = new Date();
 var dates = new Date();
 var datearray = [];
 var reportarr;
+var fwivaluesobject;
+
+var ffmc = 85;
+var dmc = 6;
+var dc = 15;
+var isi = 0;
+var bui = 0;
+var fwiindex = 0;
+
+var ffmcspan = $('#ffmcreading');
+var dmcspan = $('#dmcreading');
+var dcspan = $('#dcreading');
+var isispan = $('#isireading');
+var buispan = $('#buireading');
+var fwispan = $('#fwireading');
 
 function getdevices(){
   if(window.XMLHttpRequest){
@@ -44,6 +59,59 @@ function setdevice(t){
   $('.device').removeClass('active');
   t.addClass('active');
   getreport();
+  getavgvalues();
+}
+
+function getavgvalues(){
+  var reportdate = $('#selectdate').val();
+  var reportdevice = $('.device.active').find('#devicename').text();
+  if(reportdate != "" && reportdate != null && reportdevice != ""){
+    //getfwivalues();
+    if(window.XMLHttpRequest){
+      xhttp = new XMLHttpRequest();
+    }
+    else{
+      xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xhttp.open('GET', 'getfwivalues.php?rdevice='+reportdevice+"&rdate="+reportdate);
+    xhttp.send();
+    xhttp.onreadystatechange = function(){
+      if(this.readyState == 4 && this.status == 200){
+        if(this.responseText != "No record found!" && this.responseText != "Some error occured..."){
+          fwivaluesobject = JSON.parse(this.responseText);
+          calculatefwi(fwivaluesobject);
+        }
+        else{
+          $('#fwireport #msg').text(this.responseText);
+        }
+      }
+    }
+  }
+}
+//////////////calculation of fwi/////////////
+function calculatefwi(fwivaluesobject){
+  var avgtemp = fwivaluesobject.avgtemperature;
+  var avghum = fwivaluesobject.avghumidity;
+  $('#fwireport #msg').text("");
+  //////////////////FFMC/////////////////
+  var mo = (147.2*(101-85))/(59.5+85);
+  var ed = 0.942*(Math.pow(avgtemp, 0.6)) + 11*Math.pow(2.7, ((avghum-100)/10)) + 0.18*(21.1 - avgtemp)*(1-Math.pow(2.7, (-0.12*avghum)));
+  ed = parseInt(ed.toFixed(2));
+  var ko = 0.424 * (1-Math.pow((avghum/100), 1.7));
+  var kd = ko *0.58*Math.pow(2.7, 0.03 * avgtemp);
+  kd = parseInt(kd.toFixed(2));
+  var m = ed + (mo-ed)*Math.pow(10,-kd);
+  ffmc = (59.5 * (250-m))/(147.2+m);
+  ffmc = ffmc.toFixed(4);
+  //////////////////DMC//////////////////
+  var lo = 9.775;
+  var k = 1.894*(avgtemp + 1.1)*(100-avghum)*lo*Math.pow(10,-4);
+  console.log(k);
+  dmc = 6 + k;
+  dmc = dmc.toFixed(4);
+  ////////////////show output/////////////
+  ffmcspan.text(ffmc);
+  dmcspan.text(dmc);
 }
 
 function getreport(){
@@ -325,9 +393,7 @@ function creategaugereport(readingarr, rtype){
   readingarr.forEach((row)=>{
     sum += parseInt(row);
   });
-  console.log(sum);
   avgval = sum/readingarr.length;
-  console.log(avgval);
   if(rtype == "temperature"){
     rotationangle = ((avgval/50))*180;
     range.push('0-10°C');
@@ -376,7 +442,6 @@ function creategaugereport(readingarr, rtype){
       'rgba(109, 44, 199, 0.4)', //violet
     ];
   }
-  console.log(rotationangle);
   var myChartgauge = new Chart(gaugereport, {
         type: 'doughnut',
         data: {
@@ -401,6 +466,7 @@ function creategaugereport(readingarr, rtype){
     $('#gaugeneedle').css('transform', 'rotateZ('+rotationangle+'deg)');
 }
 
+
 $(document).ready(()=>{
   curuser = $('#curuser').text();
   getdevices();
@@ -416,11 +482,9 @@ $(document).ready(()=>{
   getreport();
   $('#selectdate').on('change', function(){
     getreport();
+    getavgvalues();
   });
   $('.selectunittypediv').on('change', function(){
     getreport();
-  });
-  $('.device').click(function(){
-
   });
 });

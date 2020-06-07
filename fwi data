@@ -1,0 +1,29 @@
+links
+1. FFMC paper link
+  https://www.researchgate.net/publication/248885576_Calibrating_the_Fine_Fuel_Moisture_Code_for_grass_ignition_potential_in_Sumatra_Indonesia
+
+2. All default reading links
+  https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6390706/
+
+3. time lags
+  https://www.nwcg.gov/publications/pms437/cffdrs/fire-weather-index-system
+
+4. All readings table {important}
+  https://www.pogoda-niesiolowice.kaszuby.pl/fwi/fwistronaen.html
+
+
+
+FFMC - range is 2-101, default value - 85
+DMC - ranges from 0 to infinity, default value - 6
+DC - ranges from 0 to infinity, default value - 15
+ISI - ranges from 0 to infinity
+BUI - 0 to infinity
+FWI - 0 to infinity
+
+
+Duff Moisture Code DMC has a time lag of about 15 days
+Drought Code DC has a time lag of about 53 days
+
+FFMC above 90 is extreme
+DMC more than 30 is dry and more than 40 is burning
+DC 200+ is high and 300+ is extreme

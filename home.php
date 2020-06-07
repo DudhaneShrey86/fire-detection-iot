@@ -47,7 +47,7 @@
               </div>
               <div class="card">
                 <div class="cardheader">
-                  <h2>Yesterday's Reports</h2>
+                  <h2>Day-Wise Reports</h2>
                 </div>
                 <div class="cardcontent" id="reports">
                   <div id="selectdetailsdiv" class="full">
@@ -96,8 +96,31 @@
                   </div>
                 </div>
               </div>
-              <div class="card" id="fwaratingdiv">
-                <p>hi</p>
+              <div class="card" id="fwi">
+                <div class="cardheader">
+                  <h2>Canadian Forest Fire Weather Index [FWI]</h2>
+                  <a href="https://cwfis.cfs.nrcan.gc.ca/background/summary/fwi">Learn more</a>
+                </div>
+                <div class="cardcontent">
+                  <div id="fwireport">
+                    <h3 class="full">Our Readings</h3>
+                    <p id="msg"></p>
+                    <p>FFMC</p><span id="ffmcreading" class="fwicompreading">-</span>
+                    <p>DMC</p><span id="dmcreading" class="fwicompreading">-</span>
+                    <p>DC</p><span id="dcreading" class="fwicompreading">-</span>
+                    <p>Calculated ISI</p><span id="isireading" class="fwicompreading">-</span>
+                    <p>Calculated BUI</p><span id="buireading" class="fwicompreading">-</span>
+                    <p class="finalreading">FINAL FWI</p><span id="fwireading" class="fwicompreading finalreading">-</span>
+                  </div>
+                  <div id="fwitable">
+                    <img src="./images/fwi_readings.PNG" alt="">
+                    <h4>Readings Table</h4>
+                  </div>
+                  <div id="fwicomponents">
+                    <img src="./images/fwi_structure.gif" alt="">
+                    <h4>Components of FWI</h4>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="tabs" id="managedevicestab">
